@@ -1,0 +1,74 @@
+ * {
+	padding: 0px;
+	margin: 0px;
+}
+
+body {
+	font: 70%/1.4 Verdana, Arial, Helvetica, sans-serif;
+	padding: 5px;
+	font-size: 12px;
+}
+
+
+
+#content {
+	padding: 10px;
+}
+
+
+h1 {
+	color: #3e84cc;
+}
+h1, h2, h3 {
+	margin: 10px 0;
+}
+
+
+table {
+	border-collapse: collapse;
+}
+table tr td, table tr th {
+	padding: 5px;
+	border: 1px solid #aba;
+}
+
+table.error thead {
+	background-color: coral;
+}
+
+table.warning thead {
+	background-color: darkorange;
+}
+
+ul li.tooltip {
+	float: left;
+	background-color: transparent;
+	margin: 5px 0;
+	margin-right: 20px;
+	padding: 20px;
+	cursor: help;
+}
+
+p {
+	margin: 10px;
+}
+
+/*
+ * Pomocné
+ */
+
+.clear {
+        clear: both;
+}
+
+.float-left {
+    float: left;
+}
+
+.float-right {
+    float: right;
+}
+
+table.hide-control thead {
+	cursor: pointer;
+}

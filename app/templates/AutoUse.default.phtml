@@ -1,0 +1,178 @@
+{**
+ * AutoUse result template
+ *}
+
+{block #content}
+
+<h1>Výsledek nástroje AutoUse</h1>
+
+{if count($notFoundClasses)}
+<h2> Nenalezené třídy (chybějící knihovna?)</h2>
+<table class="warning hide-control">
+	<thead>
+		<tr>
+			<th>Soubor</th>
+			<th>Namespace</th>
+			<th>Třída</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr n:foreach="$notFoundClasses as $info">
+			<td>
+				<a href="editor://open/?file={$info["file"]}&line={$info["line"]}" title="Editovat">
+					{$info["file"]}
+				</a>
+			</td>
+			<td>{$info["namespace"]}</td>
+			<td>{$info["class"]}</td>
+		</tr>
+	</tbody>
+</table>
+{/if}
+
+{if count($ambigousClasses)}
+<h2>V USE je použit alias stejného názvu, jako některé třídy v daném NS(může způsobit "náhodný" error při použití auto loadingu)!</h2>
+<table class="error hide-control">
+	<thead>
+		<tr>
+			<th>Soubor</th>
+			<th>Namespace</th>
+			<th>Alias</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr n:foreach="$ambigousClasses as $info">
+			<td>
+				<a href="editor://open/?file={$info["file"]}&line={$info["line"]}" title="Editovat">
+					{$info["file"]}
+				</a>
+			</td>
+			<td>{$info["namespace"]}</td>
+			<td>{$info["as"]}</td>
+		</tr>
+	</tbody>
+</table>
+{/if}
+
+{if count($notInsertedUseSts)}
+<h2>Třída daného názvu existuje ve více NS, nebylo možné přidat USE automaticky!</h2>
+<table class="error hide-control">
+	<thead>
+		<tr>
+			<th>Soubor</th>
+			<th>Namespace</th>
+			<th>Třída</th>
+			<th>Nalezeno v:</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr n:foreach="$notInsertedUseSts as $info">
+			<td>
+				<a href="editor://open/?file={$info["file"]}&line={$info["line"]}" title="Editovat">
+					{$info["file"]}
+				</a>
+			</td>
+			<td>{$info["namespace"]}</td>
+			<td>{$info["class"]}</td>
+			<td>
+			{foreach $info["class_occurences"] as $namespace => $data}
+			   <a href="editor://open/?file={$data["file"]}&line={$data["line"]}" title="Otevřít">{$namespace}\{$data["class"]}</a> 
+			   {if !$iterator->isLast()}x <br />{/if}
+			{/foreach}
+			</td>
+		</tr>
+	</tbody>
+</table>
+{/if}
+
+{if count($unusedUseSts)}
+<h2>Třída z USE není nikde použita!</h2>
+<table class="warning hide-control">
+	<thead>
+		<tr>
+			<th>Soubor</th>
+			<th>Namespace</th>
+			<th>Alias</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr n:foreach="$unusedUseSts as $info">
+			<td>
+				<a href="editor://open/?file={$info["file"]}&line={$info["line"]}" title="Editovat">
+					{$info["file"]}
+				</a>
+			</td>
+			<td>{$info["namespace"]}</td>
+			<td>{$info["as"]}</td>
+		</tr>
+	</tbody>
+</table>
+{/if}
+
+<h2>Vložené příkazy USE</h2>
+<table class="hide-control">
+	<thead>
+		<tr>
+			<th>Soubor</th>
+			<th>Namespace</th>
+			<th>Třída</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr n:foreach="$useStAdded as $info">
+			<td>
+				<a href="editor://open/?file={$info["file"]}&line={$info["line"]}" title="Editovat">
+					{$info["file"]}
+				</a>
+			</td>
+			<td>{$info["namespace"]}</td>
+			<td>{$info["class"]}</td>
+		</tr>
+		<tr n:if="!count($useStAdded)">
+			<td colspan="3">Nebyla importována žádná třída</td>
+		</tr>
+	</tbody>
+</table>
+
+{if count($possibleCb)}
+<h2>Možné callbacky - vyžaduje ruční vložení NS přímo do nalezeného řetězce</h2>
+<table class="hide-control">
+	<thead>
+		<tr>
+			<th>Soubor</th>
+			<th>Namespace</th>
+			<th>Řetězec</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr n:foreach="$possibleCb as $info">
+			<td>
+				<a href="editor://open/?file={$info["file"]}&line={$info["line"]}" title="Editovat">
+					{$info["file"]}
+				</a>
+			</td>
+			<td>{$info["namespace"]}</td>
+			<td>{$info["value"]}</td>
+		</tr>
+	</tbody>
+</table>
+{/if}
+
+<h2> Čas parsování jednotlivých souborů</h2>
+<table class="hide-control">
+	<thead>
+		<tr>
+			<th>Soubor</th>
+			<th>Čas [s]</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr n:foreach="$fileParseTimes as $file => $time">
+			<td>{$file}</td>
+			<td>{$time}</td>
+		</tr>
+		<tr n:if="!count($fileParseTimes)">
+			<td colspan="2">Nebyl nalezen žádný soubor</td>
+		</tr>
+	</tbody>
+</table>
