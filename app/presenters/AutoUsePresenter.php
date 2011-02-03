@@ -1,6 +1,6 @@
 <?php
 
-use Nette\Debug;
+use Nette\Environment;
 
 class AutoUsePresenter extends BasePresenter
 {
@@ -13,15 +13,14 @@ class AutoUsePresenter extends BasePresenter
 		$this->template->unusedUseSts = array();
 		$this->template->useStAdded = array();
 		$this->template->possibleCb = array();
+
+		$config = Environment::getConfig("autoUse");
+
 		$autoUse = new AutoUseWorker();
 		$autoUse->onOutput[] = array($this, "setTemplateVariables");
-		$autoUse->setSource("C:\dev\www\AutoUse\\test_source");
-//		$autoUse->setSource("C:\\dev\\www\\websystem-git\\app");
-//		$autoUse->addLibrary("C:\\dev\\apps\\NetBeans 6.9.1\\php\\phpstubs\\phpruntime");
-//		$autoUse->addLibrary("C:\\dev\\\www\\websystem-git\\libs\\dibi");
-//		$autoUse->addLibrary("C:\\dev\www\\websystem-git\\libs\\fckeditor");
-//		$autoUse->addLibrary("C:\\dev\\www\\websystem-git\\libs\\GettextExtractor2");
-//		$autoUse->addLibrary("C:\\dev\\www\\websystem-git\\libs\\Nette");
+		$autoUse->setSource($config->sourceDir);
+		$autoUse->addLibrary((array)$config->libDirs);
+		$autoUse->addIgnoredDirs((array)$config->ignoredDirs);
 
 		$autoUse->run();
 	}
