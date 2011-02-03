@@ -43,9 +43,10 @@ class AutoUseWorker extends Object {
 	/** @var array of function($outputInfo, array $params) */
 	public $onOutput;
 
-	/**#@+ Input Directories */
+	/**#@+ Settings */
 	private $sourceDir = array();
 	private $libDirs = array();
+	private $ignoredDirs = array();
 	/**#@-*/
 
 	/**#@+ Parser's working atributes  */
@@ -71,15 +72,28 @@ class AutoUseWorker extends Object {
 	}
 
 	public function addLibrary($directory) {
-		$this->libDirs[] = $directory;
+		if(is_array($directory)) {
+			$this->libDirs += $directory;
+		}
+		else {
+			$this->libDirs[] = $directory;
+		}
 	}
 
+	public function addIgnoredDirs($mask) {
+		if(is_array($mask)) {
+			$this->ignoredDirs += $mask;
+		}
+		else {
+			$this->ignoredDirs[] = $mask;
+		}
+	}
 
 	protected function analyse() {
 		$this->isSource = TRUE;
 		// collect informations from all classes
 		foreach(array_merge(array($this->sourceDir), $this->libDirs) as $dir) {
-			foreach(Finder::findFiles("*.php")->from($dir) as $fileInfo) {
+			foreach(Finder::findFiles("*.php")->from($dir)->exclude($this->ignoredDirs) as $fileInfo) {
 				debug::timer($fileInfo->getFilename());
 				$this->parseFile($fileInfo->getPath() . "/" . $fileInfo->getFilename());
 				$this->onOutput(self::OI_FILE_ANALYSED, array(
