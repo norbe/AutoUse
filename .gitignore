@@ -1,0 +1,10 @@
+# list of files/folders, which will GIT ignore
+
+log/*
+!log/___dummy
+temp/*
+!temp/___dummy
+!temp/sessions/
+temp/sessions/*
+!temp/sessions/___dummy
+nbproject
