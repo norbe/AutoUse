@@ -1,6 +1,5 @@
 <?php
 
-use Nette\Environment;
 use Nette\Application\Presenter;
 
 

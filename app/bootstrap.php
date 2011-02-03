@@ -30,8 +30,8 @@ if (@file_put_contents(Environment::expand('%tempDir%/_check'), '') === FALSE) {
 }
 
 // 2d) setup sessions
-$session = Environment::getSession();
-$session->start();
+//$session = Environment::getSession();
+//$session->start();
 
 // Step 3: Setup application router
 $application = Environment::getApplication();
