@@ -2,6 +2,13 @@
 
 use Nette\Environment;
 
+/**
+ * AutoUsePresenter - part of AutoUse tool.
+ *
+ * @copyright  Copyright (c) 2011 Karel Hák
+ * @license    New BSD License
+ * @link       http://github.com/norbe/AutoUse
+ */
 class AutoUsePresenter extends BasePresenter
 {
 	public function renderDefault()

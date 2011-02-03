@@ -4,11 +4,13 @@ use Nette\Object;
 use Nette\Finder;
 use Nette\String;
 use Nette\Debug;
-
 /**
- * AutoUseWorkers - Class for automatic insertion of USE statements
+ * AutoUseWorkers - part of AutoUse tool.
+ * Class for automatic insertion of USE statements
  *
- * @author Karel
+ * @copyright  Copyright (c) 2011 Karel Hák
+ * @license    New BSD License
+ * @link       http://github.com/norbe/AutoUse
  */
 class AutoUseWorker extends Object {
 	/**#@+ Array keys */
